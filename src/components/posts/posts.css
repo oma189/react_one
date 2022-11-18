@@ -1,0 +1,13 @@
+.posts{
+    flex: 9 ;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    flex-wrap: wrap;
+    margin: 20px;
+}
+@media only screen and (max-width: 600px){
+    .posts{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
