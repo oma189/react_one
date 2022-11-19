@@ -1,33 +1,29 @@
-const User = require('../models/userModel')
+const Post = require('../models/postModel')
+const Comment =require('../models/commentModel')
 
 module.exports = async (req, res) => {
     try {
-        //check if data exists
-        const user = await User.findOne({
-            email: req.fields.email
-        })
-        //user does not exist
-        if (!user) {
-            const newUser = new User(req.fields)
-            //hash the user's password
-            newUser.hashPassword(req.fields.pass)
-            await newUser.save().then(data => {
-                if (data) {
+        //check if post exists
+        const post = await Post.findById(req.fields.postId)
+        if (post) {
+            const newComment = new Comment(req.fields)
+            newComment.save().then(savedDoc => {
+                if (savedDoc) {
                     return res.status(200).json({
                         success: true,
-                        message: "Account has been created successfully"
+                        message: "Comment posted successfully"
                     })
                 } else {
                     return res.status(400).json({
                         success: false,
-                        message: "Could't create account. Please try again"
+                        message: "Couldn't post comment. Please try again later"
                     })
                 }
             })
         } else {
             return res.status(400).json({
                 success: false,
-                message: "Account exists already"
+                message: "The post you're trying to comment on might have been deleted"
             })
         }
     } catch (err) {

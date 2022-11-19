@@ -1,4 +1,4 @@
-const Octavalidate = require('octaValidate-nodejs')
+const Octavalidate = require('octavalidate-nodejs')
 
 //create new instance
 const validate = new Octavalidate('form_login')
@@ -17,11 +17,11 @@ module.exports = (req, res, next) => {
     try{
         if(req.method == "POST"){
             //validate the form
-            if(!validate.validateFields(fieldRules, req.body)){
+            if(!validate.validateFields(fieldRules, req.fields)){
                 return res.status(400).json({
                     success : false,
                     message : "Form validation failed",
-                    formData: req.body,
+                    formData: req.fields,
                     formErrors: validate.getErrors()
                 })
             }

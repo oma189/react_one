@@ -1,14 +1,14 @@
-const Octavalidate = require('octaValidate-nodejs')
+const Octavalidate = require('octavalidate-nodejs')
 
 //create new instance
 const validate = new Octavalidate('form_new_post')
 
 const fieldRules = {
     title : {
-        'TEXT' : "Post title contains invalid characters"
+        'ALPHA_SPACES' : "Post title contains invalid characters"
     },
     subtitle : {
-        'TEXT' : "Post subtitle contains invalid characters"
+        'ALPHA_SPACES' : "Post subtitle contains invalid characters"
     },
     token : {
         'R' : "User token is required",
@@ -31,13 +31,13 @@ module.exports = (req, res, next) => {
     try{
         if(req.method == "POST"){
             const fileVal = validate.validateFiles(fileRule, req.files)
-            const fieldVal = validate.validateFields(fieldRules, req.body)
+            const fieldVal = validate.validateFields(fieldRules, req.fields)
             //validate the form
             if(!(fileVal && fieldVal)){
                 return res.status(400).json({
                     success : false,
                     message : "Form validation failed",
-                    formData: req.body,
+                    formData: req.fields,
                     formErrors: validate.getErrors()
                 })
             }

@@ -1,16 +1,18 @@
 const express = require('express')
 const path = require('path')
-const fileUpload = require('express-fileUpload')
 const cors = require('cors')
 const db = require('./utils/database')
 const app = express()
+const formidable = require('express-formidable')
+app.use(formidable())
+//dotenv file
+require('dotenv').config()
+//port
 const PORT = process.env.PORT || 5000
-
 //parse url encoded bodies (as sent by html forms)
 app.use(express.urlencoded({ extended: true }))
 //parse json bodies (as sent by api clients)
 app.use(express.json())
-app.use(fileUpload())
 
 app.use('/public', express.static('./uploads'))
 
@@ -23,7 +25,7 @@ app.use(cors(corsOpts))
 
 app.get('/', (req, res) => {
     return res.status(200).json({
-        message : "🙂 Hello 🙂"
+        message : "🙂 Hello from Simon Ugorji. Psst! You're doing great things! 🙂"
     })
 })
 
@@ -38,9 +40,16 @@ app.use('/update-post', require('./middlewares/updatePost'), require('./controll
 
 app.use('/posts', require('./controllers/allPosts'))
 
-app.get('/post/:title', require('./middlewares/singlePost'), require('./controllers/singlePost'))
+app.use('/post/:title', require('./middlewares/singlePost'), require('./controllers/singlePost'))
 
-app.get('/post/delete/:title/:token', require('./middlewares/deletePost'), require('./controllers/deletePost'))
+app.use('/delete-post/:title/:token', require('./middlewares/deletePost'), require('./controllers/deletePost'))
+
+//post new comment
+app.use('/new-comment', require('./middlewares/newComment'), require('./controllers/newComment'))
+
+app.use('/delete-comment/:commentId/:postId/:token', require('./controllers/deleteComment'))
+
+app.get('/user/:user', require('./controllers/userMeta'))
 
 app.use((req, res) => {
     res.status(400).json({

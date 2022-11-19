@@ -9,6 +9,10 @@ const postSchema = new mongoose.Schema({
     title: { type: String, required: true },
     subtitle: { type: String, required: true },
     content: { type: String, required: true },
+    category : {
+        type : String,
+        default : "Other"
+    },
     datePosted: {
         type: Date,
         default: new Date().getTime()
@@ -19,7 +23,7 @@ const postSchema = new mongoose.Schema({
     lastUpdated : {
         type: String
     },
-    cover: { required: true, type: String }
+    cover: { type: String }
 })
 //handle summernote file upload
 module.exports = mongoose.model('Post', postSchema, 'posts')
