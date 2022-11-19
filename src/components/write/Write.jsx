@@ -1,16 +1,16 @@
 import "./write.css"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
 export default function Write() {
     const navigate = useNavigate()
     const [token] = useState(localStorage.getItem('token') || null);
 
-    React.useEffect( () => {
+    useEffect( () => {
         if(!token){
             navigate('/login')
         }
-    }, [token])
+    }, [token])// eslint-disable-line react-hooks/exhaustive-deps
     return (
         <>
             {
