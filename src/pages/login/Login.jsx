@@ -8,7 +8,7 @@ export default function Login() {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form)
-        fetch("http://localhost:5000/login", {
+        fetch("https://oma-blog-backend.onrender.com/login", {
             method: "post",
             mode: "cors",
             body: formData

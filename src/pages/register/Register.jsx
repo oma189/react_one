@@ -9,7 +9,7 @@ export default function Register() {
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form)
-        fetch("http://localhost:5000/register", {
+        fetch("https://oma-blog-backend.onrender.com/register", {
             method : "post",
             mode : "cors",
             body : formData
